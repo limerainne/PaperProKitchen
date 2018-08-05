@@ -1,8 +1,7 @@
 @echo off
-PUSHD %~DP0
+chcp 949 1> NUL 2> NUL
 setlocal enabledelayedexpansion enableextensions
 
-title ROM Signer
 echo Welcome to ROM Signer^^!
 echo by haoyangw@xda, modified by Limerainne
 echo.
@@ -78,7 +77,7 @@ echo.
 
 echo Press any key to exit...
 pause>nul
-exit
+goto finish
 
 :path_from_full_loc <resultVar> <pathVar>
 (
@@ -95,3 +94,5 @@ exit
     set %~1=%~x2
     exit /b
 )
+
+:finish

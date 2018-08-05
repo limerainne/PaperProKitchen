@@ -1,10 +1,10 @@
 @echo off
-chcp 65001 1> NUL 2> NUL
+chcp 949 1> NUL 2> NUL
 set "PATH=%~dp0\bin;%~dp0\tools;%PATH%"
 
 pushd "%~dp0"
 
-echo   # ë‹¤ìŒ ì•±ì„ ì„¤ì¹˜í•©ë‹ˆë‹¤:
+echo   # ´ÙÀ½ ¾ÛÀ» ¼³Ä¡ÇÕ´Ï´Ù:
 for /r %%i in (apps\*.apk) do (
   echo   * "%%~nxi"
   call :get_app_pkg_name %%i
@@ -12,24 +12,31 @@ for /r %%i in (apps\*.apk) do (
 echo.
 
 for /r %%i in (apps\*.apk) do (
-  echo   * ì„¤ì¹˜: "%%~nxi"
-  adb install "apps\%%~nxi"
+  echo   * ¼³Ä¡: "%%~nxi"
+  echo adb install -r "apps\%%~nxi"
+  adb install -r "apps\%%~nxi"
   echo.
 )
+echo.
 
-echo   # ë‹¤ìŒ ëª…ë ¹ìœ¼ë¡œ ì•± ëŸ°ì²˜ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
-echo adb shell monkey -p be.wazabe.appdrawer -c android.intent.category.LAUNCHER 1
-adb shell monkey -p be.wazabe.appdrawer -c android.intent.category.LAUNCHER 1
+echo   # ±â±â¿¡¼­ '¾Û ¼­¶ø' ¾ÛÀ» °­Á¦ Á¾·áÇÕ´Ï´Ù.
+echo adb shell am force-stop be.wazabe.appdrawer
+adb shell am force-stop be.wazabe.appdrawer
+echo adb shell am force-stop au.radsoft.appdrawer
+adb shell am force-stop au.radsoft.appdrawer
+echo.
 
-echo   # ëª¨ë“  ì•± íŒŒì¼ì— ëŒ€í•´ ì„¤ì¹˜ ëª…ë ¹ì„ ì§„í–‰í–ˆìŠµë‹ˆë‹¤! ì•„ë¬´ í‚¤ë‚˜ ëˆŒëŸ¬ ì¢…ë£Œí•˜ì„¸ìš”.
+echo   # ¸ðµç ¾Û ÆÄÀÏ¿¡ ´ëÇØ ¼³Ä¡ ¸í·ÉÀ» ÁøÇàÇß½À´Ï´Ù! ¿£ÅÍ Å° ¶Ç´Â ¾Æ¹« Å°³ª ´­·¯ Á¾·áÇÏ¼¼¿ä.
 pause > NUL
-exit /b 0
+goto finish
 
 :get_app_pkg_name <apk_path>
 (
-echo       - ì•± ì´ë¦„
+echo       - ¾Û ÀÌ¸§
 aapt d badging "apps\%~nx1" 2>&1 | findstr /rc:"^application-label:\'.*\'"
-echo       - íŒ¨í‚¤ì§€ ì´ë¦„
+echo       - ÆÐÅ°Áö ÀÌ¸§
 aapt d badging "apps\%~nx1" 2>&1 | findstr /rc:"^package: name="
 echo.
 )
+
+:finish

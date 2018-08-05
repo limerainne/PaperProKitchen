@@ -17,18 +17,23 @@
   
 - (선택) 기기에 설치할 앱 APK 파일 및 설정, 명령 파일 담기
   - Windows 탐색기 > PAPER PRO > 내부 저장소 열기
-  - "Apks" 폴더를 만든 뒤 (대소문자 주의! 리눅스에서는 대소문자를 구별함)
+  - "Apps" 폴더를 만든 뒤 (대소문자 주의! 리눅스에서는 대소문자를 구별함)
   - 그 안에 APK 파일, 그리고 앱 초기 설정 파일 등 담기
-  
+
+- (선택) [윈도 7, 루팅 이미지] ADB USB 장치 VID 변경
+  - Windows 탐색기 > PAPER PRO > 내부 저장소 열기
+  - 도구 폴더에 있는 ".win7" 파일을 내부 저장소로 복사
+    - 추후 루팅 스크립트 동작 중 이 파일이 존재하면 장치 VID 변경 시행
+
 - 기기를 완전히 종료하기
   - 기기 상단의 전원 버튼을 누르고, 화면에서 [확인]을 터치.
   - 또는, 기기가 켜져 있을 때 전원 버튼을 10초간 눌러 강제로 끄기.
 
 - Fastboot 모드로 기기 시작하기
-  - 전면 우상단 물리 버튼과 전원 버튼 함께 누르고 있기.
-  - 전원 버튼 좌측 LED에 잠시 초록 불이 들어왔다가 (노란 빛이 섞인) 흰색으로 바뀌면 버튼에서 손 떼기.
+  - 전면 우상단 물리 버튼과 전원 버튼 함께 누르고 있기. 측면 퀵버튼 아님!
+  - 전원 버튼 옆 LED에 잠시 초록 불이 들어왔다가 (노란 빛이 섞인) 흰색으로 바뀌면 버튼에서 손 떼기.
   - 장치 관리자에 "Android Device" > "Android ADB Interface" 장치가 잡혀 있으면 성공.
-    - 대신 "기타 장치" > "i.mx6sl NTX Smart Device"가 잡혀 있으면... 위의 ADB 드라이버 설치할 것.
+    - 대신 "기타 장치" > "i.mx6sl NTX Smart Device"가 잡혀 있으면... 위의 ADB 드라이버 수동 설치할 것.
   
   - 참고) 전원 LED가 흰색으로 바뀌기 전에 (또는, 초록 불이 들어오기 시작할 때 즈음) 전원 버튼에서 손을 떼고
     - 우상단 물리 버튼만 누르고 있으면 리커버리 모드로 부팅
@@ -37,16 +42,16 @@
   - "_start_cmd.cmd" 파일을 실행해 명령줄 창을 띄우고, 다음 명령 두 줄을 입력하여 실행
     - 첫 명령어로 장치가 정상 인식되는 지 확인
     - 두번째 명령어로 리커버리 이미지로 부팅
-      - 여기서 부팅 실패 시 ("FAILED"), USB 케이블 교체 추천
+      - 여기서 부팅 실패 시 ("FAILED"), USB 케이블 교체·데스크톱이면 후면 USB 포트 추천
 
 fastboot devices
-fastboot boot images\mod_adb_su_boot_v1.0.0_r4.img
+fastboot boot images\all_in_one_r1.img
 
 실행 예시)-*-*-*-*-*-*-*-*-*-*-*-*-
 C:\Users\CottonCandy\Desktop\PaperPro>fastboot devices
 PP1A1********   fastboot
 
-C:\Users\CottonCandy\Desktop\PaperPro>fastboot boot images\mod_adb_su_boot_v1.0.0_r2.img
+C:\Users\CottonCandy\Desktop\PaperPro>fastboot boot images\all_in_one_r1.img
 downloading 'boot.img'...
 OKAY [  0.230s]
 booting...
@@ -55,37 +60,52 @@ finished. total time: 0.236s
 -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 
   - 리커버리 이미지에 따라 다른 작업 수행
-    - open_adb_rbpp1_v1.0.0_r4.img
-        : ADB 활성화 + init.d 활성화
-    - mod_adb_su_boot_v1.0.0_r4.img
-        : ADB 활성화 + SuperSU 설치 + 부트 파티션 수정 (SD카드 인식) + 브라우저 파일 다운로드 기능 + init.d 활성화
+    - open_adb_only_r1.img
+        : ADB 활성화 + 킷캣 OS SD카드 쓰기 권한 제한 해제
+    - mod_adb_su_boot_r1.img
+        : 위 이미지
+         + init.d 활성화 + 앱 자동 설치
+         + SuperSU 설치 + 부트 파티션 수정 (SD카드 인식) + 브라우저 파일 다운로드 기능 수리
+         + ADB 장치 구글 넥서스 4로 속임 + 데메빌러님 epdblk 작동 준비
+    - all_in_one_r1.img
+        : 위 이미지 + 기본 앱 자동 설치
 
 - 리커버리 모드로 진입하고, 다음 작업을 진행한 후 5초 후 자동 재부팅됨.
 -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
   - ADB 활성화: /system/build.prop에 다음 줄 덧붙임
 persist.sys.usb.config=mtp,adb
+
   - 사용자 앱의 SD카드 쓰기 권한 허용: /system/etc/permissions/platform.xml 수정
      <permission name="android.permission.WRITE_EXTERNAL_STORAGE" >
          <group gid="sdcard_r" />
          <group gid="sdcard_rw" />
 +        <group gid="media_rw" />
      </permission>
+
   - init.d 활성화 (/system/etc/install-recovery.sh 및 busybox run-parts 활용)
+
   - 첫 부팅 시 앱 설치 스크립트 추가
-  
+: 리커버리 내장한 필수 앱 /data/local/tmp/apps로 복사
+: /system/app/에 토스트+대화상자용 앱 추가
+
   - SuperSU 설치
+
   - 브라우저 다운로드 기능 고치기: /system/priv-app/DownloadProvider.apk 교체 (v1.0.1P 파일 이용)
 com.android.providers.downloads.DownloadProvider.checkFileUriDestination() 함수 중,
   getCanonicalPath() -> getAbsolutePath()로 변경
+
   - 부트 파티션 수정
 init.E70Q10.rc SECONDARY_STORAGE 환경변수 설정
 default.prop에 위의 ADB 활성화 수정
+데메빌러님 epdblk 구동을 위한 graphics 유저 전용 파일 권한 수정
+USB 벤더 ID "구글 넥서스 4"로 속이기: 간편한 Win7 드라이버 인식 위해
 -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 
 - 기기가 정상 재시작되면, ADB 장치가 정상 인식되는지 확인.
-  - 장치관리자 중, "범용 직렬 버스 장치" > "Ridi_device"
-    - "기타 장치"에 있으면 드라이버 한 번 더 설치
+  - 장치관리자 중, "범용 직렬 버스 장치" > "Ridi_device" 또는 "Android Device" > "Android ADB Interface" 있는지 확인
+    - 대신 "기타 장치"에 있으면 드라이버 한 번 더 설치
       - 리커버리 때와 장치 ID가 달라서 드라이버 설치를 한 번 더 진행해야 함
+        Fastboot, 리커버리 때는 구글 ID, 정상 부팅 때는 네트로닉스 ID
         (부트 파티션 램디스크의 /init.usb.rc 참조)
   - 앞의 명령줄 창에서, 'adb devices'했을 때 아래와 같이 뜨는지 확인
     - ADB에서만 인식이 안 되면 "_add_vendor_to_adb_usb_ini.cmd" 실행
@@ -97,14 +117,14 @@ List of devices attached
 PP1A1********   device
 -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 
-- 필요한 앱 설치: 'adb install'
+- 필요한 앱 설치: 'adb install' 명령
   - 앱 자동 설치 스크립트를 통해 설치하지 않은 앱들은,
   - 네이버 eBook 카페의 네무네무 님의 툴을 사용하거나, 'adb install' 명령으로 설치
   - 또는, 같이 포함된 apps/ 폴더 내의 앱들을 '_install_apps.cmd'를 통해 설치
   - 또는, 기기 내부 저장소에 APK 파일을 담은 후 기기에서 탐색기 앱을 통해 찾아서 설치
     - 기기 내 환경설정 앱 > 보안 > 알 수 없는 소스 허용 선택해야 할 수 있음 (어차피 체크 안 되어 있으면 알아서 안내해 줌)
 
-- ADB를 통해 가상 버튼 앱 실행
+- 기기에서 앱 서랍을 실행할 수 있도록 ADB를 통해 가상 버튼 앱 실행: '_launch_app.cmd'
   - 가상 버튼 역할을 할 앱을 기기에 내장된 "monkey" 테스트 툴을 통해 처음 한 번은 실행해 주어야 함.
 adb shell monkey -p <패키지 이름> -c android.intent.category.LAUNCHER 1
 
@@ -113,18 +133,21 @@ C:\Users\CottonCandy\Desktop\PaperPro>adb shell monkey -p be.wazabe.appdrawer -c
 Events injected: 1
 ## Network stats: elapsed time=65ms (0ms mobile, 0ms wifi, 65ms not connected)
 -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+  - "Multi-action Home Button" 앱 실행 명령
+adb shell monkey -p com.home.button.bottom -c android.intent.category.LAUNCHER 1
 
 - 접근성 서비스 활성화
-  - 가상 버튼 등의 앱은 접근성 서비스를 통해 뒤로 버튼 등을 동작시키지만
-  - 환경설정 앱 개조가 덜 되어 있어 기기 상에서 접근성 서비스 활성화가 불가능
+  - 가상 버튼 앱은 "접근성 서비스"를 통해 뒤로 버튼 등을 동작시키지만
+  - 리디의 환경설정 앱 개조가 덜 되어 있어 기기 상에서는 접근성 서비스 활성화가 불가능
     - 설정 앱의 레이아웃에서 상단 툴바가 제거되어 있으나 코드에 반영되어 있지 않아, 존재하지 않는 툴바에 명령 내리려다 강제종료...
   - ADB 셸에서 "settings" 명령 통해 활성화가 가능 (루트 권한 불필요)
   
   - APK 파일에 대해 aapt 명령을 내리거나 하여 접근성 서비스 이름을 찾고
     e.g. Multi-action Home Button은 com.home.button.bottom/com.home.button.service.AccessibilityActionService
   - 기기의 ADB 셸에서 다음 명령을 다음 순서대로 내리기
-> settings put secure enabled_accessibility_services 'com.home.button.bottom/com.home.button.service.AccessibilityActionService'
-> settings put secure accessibility_enabled 1
+settings put secure enabled_accessibility_services 'com.home.button.bottom/com.home.button.service.AccessibilityActionService'
+settings put secure accessibility_enabled 1
+
   - 원하는 서비스가 두 개 이상이라면 ':'으로 구분하여 이어 적기
 
 -----------------------------------------------
@@ -143,21 +166,79 @@ aapt: APK 패키지에서 AndroidManifest.xml 추출, 여러 정보 (서비스 �
 > aapt dump badging <APK file>
 > aapt dump xmltree <APK file> AndroidManifest.xml
 apktool: APK 패키지 디컴파일/컴파일, 앱 코드 수정 또는 프레임워크 수정 (배터리 퍼센트 표시) 등에 사용
+sed: 혹시 텍스트 파일 찾아바꾸기할 일 있을까봐...
 
 ### 도구 버전
-- Android SDK Platform-Tools v27.0.0 (<sdk>/platform-tools)
+- Android SDK Platform-Tools r40 (v28.0.0) (<sdk>/platform-tools)
 : ADB, Fastboot
-- Android SDK Build-Tools v27.0.2 (<sdk>/build-tools/27.0.2)
+- Android SDK Build-Tools v28.0.0 (<sdk>/build-tools/28.0.0)
 : aapt (AndroidManifest.xml 추출용)
 - Google USB Driver rev 11 (<sdk>/extras/google/usb_driver)
 : ADB 연결
 
-- APKTool v2.3 https://ibotpeaches.github.io/Apktool/install/
+- APKTool v2.3.3 https://ibotpeaches.github.io/Apktool/install/
 : APK unpack/repack용
+
+#### 리커버리 도구
+- 기반 v1.0.0P, /sbin/recovery 바이너리 v1.0.2P
+- /sbin/ 디렉토리, "adbd" YotaPhone2 커스텀 리커버리 XDA@SteadyQuad https://forum.xda-developers.com/yotaphone-one/development/recovery-modified-stock-recovery-to-t3131871
+
+- Busybox 1.28.3-YDS https://github.com/yashdsaraf/bb-bot/releases
+- bbootimg (binary https://github.com/Tasssadar/sailfish_multirom_packer/blob/master/zip_root/post_install/bbootimg)
+- parted, mke2fs, e2fsck, tune2fs https://github.com/Talustus/android-recovery/tree/master/utilities
+- zipalign https://github.com/skyleecm/android-build-tools-for-arm/tree/master/out/host/linux-arm/bin
+- tar, zip https://github.com/opengapps/opengapps/tree/master/scripts
+
+#### 기본 앱
+- 소프트키: Multi-action Home Button, UDN
+- 앱 서랍: 두 가지 AppDrawer 앱
+- 앱 스토어: Yalp Store
+- 파일 탐색기: Cabinet
+- 브라우저: Lightning + eInk 패치
+- 오프라인 사전: ColorDict + RidiDictBridge
+- 버튼매퍼 (나그네님)
+- 화면 회전: Adaptive Rotation Lock
+- 메모리 정리: Greenify
 
 -----------------------------------------------
 
 ## 달라진 점
+ - r10
+  * r9에서 Win7을 위한 ADB 장치 VID 교체 선택 사항으로 변경
+    - /sdcard/.win7 (빈 파일) 만들면 동작
+    - /sdcard/.rev_win7 (빈 파일) 만들면 원래대로 되돌림: 일부 Win10 PC에서 인식 안 되는 문제 해결 위해
+      - 둘 다 있으면 ".win7" 동작
+  * 기본 앱 자동 설치:
+    - Greenify 앱 추가
+    - SuperSU 동작 시점 가장 처음으로 변경, UDN, 버튼매퍼 권한 획득하도록 수정
+    - 기본 브라우저 비활성화 명령 삭제
+    - 부팅 후 나타나는 불필요한 토스트 메시지 삭제 ("스크립트 실행")
+    - 폰트 권한 교정 스크립트 개정
+    - UDN 활성화 방식 하단 어디서든 위로 스와이프 -> 하단 우측 구석 터치로 변경
+  * 기본 앱 제외 설치 이미지 개정
+    - SuperSU 기본 설정 파일 복사: 루트 권한 필요한 UDN, ButtonMap, OTA시 SuperSU 앱 삭제로 설정 파일로 함께 삭제됨
+  * 리파티션 위해 부팅 이미지 편집용 bbootimg 도구 추가
+  * PC 쪽 도구: diff, patch 추가
+    
+ - r9
+  * PC 쪽 도구
+    - 버전 업데이트 (ADB, Fastboot, APKTool 등)
+    - 앱 설치 스크립트와 앱 실행 스크립트 분리
+    - 앱 설치 스크립트 수행 후 앱 서랍 강제 종료하도록 하여 앱 목록 새로고침 시행
+  * 리커버리 이미지
+    - busybox 새 버전으로 교체, 각종 파티션 편집 툴, tar/zip 압축 툴 추가 ... 언젠가는 쓸 일이 있겠지...
+    - recovery 프로그램 v1.0.2P 것으로 교체: 하드웨어 키 직관대로 동작, 메뉴 선택시 최종 경고 화면 간소화
+  * 루팅 스크립트
+    - 앱 자동 설치 스크립트 개선: "getprop sys.boot_completed" 값을 검사하여 올바른 시작 타이밍 파악, 올바른 init.d 스크립트 권한 부여, 기본 앱 리커버리에 포함하여 설치 진행
+    - 부트 이미지 패치 스크립트: 기존 Polymorph&AIK-Mobile에서 bbootimg&AIK-Mobile의 mkbootfs로 직접 구현
+        : busybox의 버그인지 잘못 만들어서 그런지 편집한 ramdisk를 손수 cpio 압축하면 부팅이 안 됨..
+      - Win7을 위해 ADB 장치 VID를 Google Nexus 4의 것으로 교체
+      - 데메빌러님 epdblk 사용 위한 graphics 유저 관련 권한 수정 (보안 구멍 된다 하지만...)
+  * 신규 루팅 이미지 추가: 필수 앱 설치
+
+ - r8
+  * v1.1.0P의 미디어 서비스 중지하지 않도록 수정 (교보문고 전자도서관, 볼륨 리모컨 등 문제 해결)
+
  - r7
   * init.d 스크립트 동작 시점 늦춤, 환경 따라 동작 않는 원인 여전히 파악 못 함
   * v1.0.2P의 /boot/init.E7***.rc 변경 반영 -- 더 나은 방법 필요.
@@ -203,9 +284,9 @@ apktool: APK 패키지 디컴파일/컴파일, 앱 코드 수정 또는 프레�
 ## 부팅 중 앱 자동 설치 스크립트
 
 - init.d 활성화를 통해, 부팅 중 앱 설치 진행
-(/init.d --> /system/etc/install-recovery.sh --> /system/etc/init.d/99_install_apps --> /data/install_apps.sh)
+(/init.d --> /system/etc/install-recovery.sh --> /system/etc/init.d/91_install_apps --> /data/install_apps.sh)
 
-- 기기 내부 저장소의 "Apks" 폴더에서 APK 파일 설치 및 설정 파일 복사, 관련 명령 파일 실행
+- 기기 내부 저장소의 "Apps" 폴더에서 APK 파일 설치 및 설정 파일 복사, 관련 명령 파일 실행
 
 * 내부 저장소의 특정 폴더에 미리 담아놓은 앱을 설치하고
     * 앱 설정 파일을 함께 두었다면, 앱 데이터 폴더로 해당 파일을 복사하고 (/data/data/<앱 패키지 이름>)
@@ -221,13 +302,13 @@ apktool: APK 패키지 디컴파일/컴파일, 앱 코드 수정 또는 프레�
 
 - 앱 데이터 파일 복사시, 기존 파일이 있든말든 덮어 쓰니 유의..
 
-- 부팅 중 앱 설치가 완료되면, "Apks" 폴더 안에 ".installed" 파일과 "install.apps.log" 텍스트 파일 생성됨.
+- 부팅 중 앱 설치가 완료되면, "Apps" 폴더 안에 ".installed" 파일과 "install.apps.log" 텍스트 파일 생성됨.
   - ADB Logcat 로그 (FirstTimeInstall 태그) 및 "install.apps.log" 파일에 로그 기록.
   - ".installed" 파일이 있으면 이미 앱을 설치해본 것이므로 다음에 스크립트를 실행해도 (install_apps.sh) 아무 일도 하지 않음.
 
 - 루트 권한으로 명령 파일을 실행하는 것이 보안 문제가 될 수 있어서,
   - 첫 부팅 이후 앱 설치 스크립트는 삭제됨 (/data/install_apps.sh)
-  - 삭제하지 않고 추후에 또 이용하시려면, "Apks" 폴더 안에 ".do_not_delete_script" 이름의 빈 파일 생성할 것.
+  - 삭제하지 않고 추후에 또 이용하시려면, "Apps" 폴더 안에 ".do_not_delete_script" 이름의 빈 파일 생성할 것.
   - init.d 안의 스크립트는 남아있으나, 어차피 껍데기이므로 의미 없음.
 
 * 원전 https://forum.xda-developers.com/showthread.php?t=1441378 [DEV][SCRIPT] First-Boot App Install

@@ -1,18 +1,18 @@
 @echo off
-chcp 65001 1> NUL 2> NUL
+chcp 949 1> NUL 2> NUL
 set "PATH=%~dp0\bin;%~dp0\tools;%PATH%"
 
 pushd "%~dp0"
 
-echo # ë‹¤ìŒ ê²½ë¡œì˜ ADB ì„¤ì • íŒŒì¼ì— ë„¤íŠ¸ë¡œë‹‰ìŠ¤ì˜ Vendor IDë¥¼(0x1f85) ì¶”ê°€í•©ë‹ˆë‹¤:
+echo # ´ÙÀ½ °æ·ÎÀÇ ADB ¼³Á¤ ÆÄÀÏ¿¡ ³×Æ®·Î´Ð½ºÀÇ Vendor ID¸¦(0x1f85) Ãß°¡ÇÕ´Ï´Ù:
 set ADB_USB="%userprofile%\.android\adb_usb.ini"
 echo  %ADB_USB%
 echo 0x1f85>>%ADB_USB%
 echo.
 
-echo # í˜„ìž¬ ì‹¤í–‰ ì¤‘ì¸ ADB ì„œë²„ê°€ ìžˆìœ¼ë©´ ì´ë¥¼ ì¢…ë£Œí•©ë‹ˆë‹¤:
+echo # ÇöÀç ½ÇÇà ÁßÀÎ ADB ¼­¹ö°¡ ÀÖÀ¸¸é ÀÌ¸¦ Á¾·áÇÕ´Ï´Ù:
 adb kill-server
 echo.
 
-echo # ì•„ë¬´ í‚¤ë‚˜ ëˆŒëŸ¬ ì¢…ë£Œí•˜ì„¸ìš”!
+echo # ¿£ÅÍ Å° ¶Ç´Â ¾Æ¹« Å°³ª ´­·¯ Á¾·áÇÏ¼¼¿ä!
 pause > nul
