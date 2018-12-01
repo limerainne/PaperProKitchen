@@ -1,10 +1,21 @@
+﻿# Ridi Paper Pro Kitchen r12
+
+- 도움
+https://cafe.naver.com/bookbook68912/770
+https://cafe.naver.com/ebook/422502
+- 저장소
+https://github.com/limerainne/PaperProKitchen
+
 ## 작업 절차
+- "_step_by_step.cmd"를 실행해서 아래 절차를 차례로 진행!
+
+
 - ADB 드라이버 설치
   - "drivers/GoogleUSBDriver/" 폴더의 "android_winusb.inf" 파일 오른쪽 클릭 > 설치 클릭 (관리자 권한 필요)
   - Windows 7에서는 기기가 Fastboot 모드일 때, 작업 완료 후 정상 상태일 때 각각 드라이버 수동 설치
      - "DPInst_x64.exe" 또는 "DPInst_x86.exe" (32비트 OS이면) 실행하여 설치하는 것은, 네트로닉스 기기용 드라이버가 아니라 의미 없음.
   
-- adb_usb.ini 파일에 네트로닉스 USB Vendor ID 추가
+- (윈도7인 경우) adb_usb.ini 파일에 네트로닉스 USB Vendor ID 추가
   - "_add_vendor_to_adb_usb_ini.cmd" 실행
   
 - 장치 관리자 열어두기
@@ -44,14 +55,14 @@
     - 두번째 명령어로 리커버리 이미지로 부팅
       - 여기서 부팅 실패 시 ("FAILED"), USB 케이블 교체·데스크톱이면 후면 USB 포트 추천
 
-fastboot devices
-fastboot boot images\all_in_one_r1.img
+> fastboot devices
+> fastboot boot images\openlib_r12_full.img
 
 실행 예시)-*-*-*-*-*-*-*-*-*-*-*-*-
-C:\Users\CottonCandy\Desktop\PaperPro>fastboot devices
+C:\Users\LVLZ\Desktop\PaperPro>fastboot devices
 PP1A1********   fastboot
 
-C:\Users\CottonCandy\Desktop\PaperPro>fastboot boot images\all_in_one_r1.img
+C:\Users\LVLZ\Desktop\PaperPro>fastboot boot images\openlib_r12_full.img
 downloading 'boot.img'...
 OKAY [  0.230s]
 booting...
@@ -61,45 +72,22 @@ finished. total time: 0.236s
 
   - 리커버리 이미지에 따라 다른 작업 수행
     - open_adb_only_r1.img
-        : ADB 활성화 + 킷캣 OS SD카드 쓰기 권한 제한 해제
-    - mod_adb_su_boot_r1.img
-        : 위 이미지
-         + init.d 활성화 + 앱 자동 설치
+        : ADB 활성화 (+ 킷캣 OS SD카드 쓰기 권한 제한 해제; 부트 영역 수정 않으면 무의미)
+
+    - openlib_r12_base.img
+        : 위 이미지 + 루트 권한 + 유용한 시스템 수정
+         + init.d 활성화 + 첫 부팅 시 앱 자동 설치 기능
          + SuperSU 설치 + 부트 파티션 수정 (SD카드 인식) + 브라우저 파일 다운로드 기능 수리
          + ADB 장치 구글 넥서스 4로 속임 + 데메빌러님 epdblk 작동 준비
-    - all_in_one_r1.img
-        : 위 이미지 + 기본 앱 자동 설치
+    - openlib_r12_light.img
+        : 위 이미지 + 소프트키&앱서랍만 자동 설치
+    - openlib_r12_base.img
+        : 위 이미지 + 각종 기본 앱 자동 설치
 
-- 리커버리 모드로 진입하고, 다음 작업을 진행한 후 5초 후 자동 재부팅됨.
--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
-  - ADB 활성화: /system/build.prop에 다음 줄 덧붙임
-persist.sys.usb.config=mtp,adb
+    - recovery_adb_r12.img
+        : 그냥 TWRP 리커버리, 직접 명령 내려야 할 때
 
-  - 사용자 앱의 SD카드 쓰기 권한 허용: /system/etc/permissions/platform.xml 수정
-     <permission name="android.permission.WRITE_EXTERNAL_STORAGE" >
-         <group gid="sdcard_r" />
-         <group gid="sdcard_rw" />
-+        <group gid="media_rw" />
-     </permission>
-
-  - init.d 활성화 (/system/etc/install-recovery.sh 및 busybox run-parts 활용)
-
-  - 첫 부팅 시 앱 설치 스크립트 추가
-: 리커버리 내장한 필수 앱 /data/local/tmp/apps로 복사
-: /system/app/에 토스트+대화상자용 앱 추가
-
-  - SuperSU 설치
-
-  - 브라우저 다운로드 기능 고치기: /system/priv-app/DownloadProvider.apk 교체 (v1.0.1P 파일 이용)
-com.android.providers.downloads.DownloadProvider.checkFileUriDestination() 함수 중,
-  getCanonicalPath() -> getAbsolutePath()로 변경
-
-  - 부트 파티션 수정
-init.E70Q10.rc SECONDARY_STORAGE 환경변수 설정
-default.prop에 위의 ADB 활성화 수정
-데메빌러님 epdblk 구동을 위한 graphics 유저 전용 파일 권한 수정
-USB 벤더 ID "구글 넥서스 4"로 속이기: 간편한 Win7 드라이버 인식 위해
--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+- 리커버리 모드로 진입하고, 이미지에 따라 작업을 진행한 후 자동 재부팅됨.
 
 - 기기가 정상 재시작되면, ADB 장치가 정상 인식되는지 확인.
   - 장치관리자 중, "범용 직렬 버스 장치" > "Ridi_device" 또는 "Android Device" > "Android ADB Interface" 있는지 확인
@@ -112,7 +100,7 @@ USB 벤더 ID "구글 넥서스 4"로 속이기: 간편한 Win7 드라이버 인
       - (원인을 모르겠지만) %userprofile%/.android/adb_usb.ini에 네트로닉스 USB vendor id가 있어야 동작하는 경우 있음
 
 실행 예시)-*-*-*-*-*-*-*-*-*-*-*-*-
-C:\Users\CottonCandy\Desktop\PaperPro>adb devices
+C:\Users\LVLZ\Desktop\PaperPro>adb devices
 List of devices attached
 PP1A1********   device
 -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
@@ -129,7 +117,7 @@ PP1A1********   device
 adb shell monkey -p <패키지 이름> -c android.intent.category.LAUNCHER 1
 
 실행 예시: 여기서는 App Drawer 앱)-*-*-*-*-*-*-*-*-*-*-*-*-
-C:\Users\CottonCandy\Desktop\PaperPro>adb shell monkey -p be.wazabe.appdrawer -c android.intent.category.LAUNCHER 1
+C:\Users\LVLZ\Desktop\PaperPro>adb shell monkey -p be.wazabe.appdrawer -c android.intent.category.LAUNCHER 1
 Events injected: 1
 ## Network stats: elapsed time=65ms (0ms mobile, 0ms wifi, 65ms not connected)
 -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
@@ -166,7 +154,9 @@ aapt: APK 패키지에서 AndroidManifest.xml 추출, 여러 정보 (서비스 �
 > aapt dump badging <APK file>
 > aapt dump xmltree <APK file> AndroidManifest.xml
 apktool: APK 패키지 디컴파일/컴파일, 앱 코드 수정 또는 프레임워크 수정 (배터리 퍼센트 표시) 등에 사용
-sed: 혹시 텍스트 파일 찾아바꾸기할 일 있을까봐...
+> apktool d -o <workdir> <APK file>
+> apktool b -o <generated APK file> <workdir>
+sed: 텍스트 파일 찾아바꾸기
 
 ### 도구 버전
 - Android SDK Platform-Tools r40 (v28.0.0) (<sdk>/platform-tools)
@@ -176,12 +166,17 @@ sed: 혹시 텍스트 파일 찾아바꾸기할 일 있을까봐...
 - Google USB Driver rev 11 (<sdk>/extras/google/usb_driver)
 : ADB 연결
 
-- APKTool v2.3.3 https://ibotpeaches.github.io/Apktool/install/
+- APKTool v2.3.4 https://ibotpeaches.github.io/Apktool/install/
 : APK unpack/repack용
 
 #### 리커버리 도구
 - 기반 v1.0.0P, /sbin/recovery 바이너리 v1.0.2P
-- /sbin/ 디렉토리, "adbd" YotaPhone2 커스텀 리커버리 XDA@SteadyQuad https://forum.xda-developers.com/yotaphone-one/development/recovery-modified-stock-recovery-to-t3131871
+- /sbin/ 디렉토리, "adbd" YotaPhone2 커스텀 리커버리 XDA@SteadyQuad 
+https://forum.xda-developers.com/yotaphone-one/development/recovery-modified-stock-recovery-to-t3131871
+
+- TWRP+OmniRom v3
+https://github.com/limerainne/ridi_paper_pro_ntx_6sl_twrp
+<- https://github.com/Ryogo-Z/nook_ntx_6sl_twrp/ 포크 및 수정
 
 - Busybox 1.28.3-YDS https://github.com/yashdsaraf/bb-bot/releases
 - bbootimg (binary https://github.com/Tasssadar/sailfish_multirom_packer/blob/master/zip_root/post_install/bbootimg)
@@ -190,19 +185,26 @@ sed: 혹시 텍스트 파일 찾아바꾸기할 일 있을까봐...
 - tar, zip https://github.com/opengapps/opengapps/tree/master/scripts
 
 #### 기본 앱
-- 소프트키: Multi-action Home Button, UDN
-- 앱 서랍: 두 가지 AppDrawer 앱
+- 소프트키: UDN
+- 앱 서랍: E-Ink Launcher
+-------
+- 소프트키: Multi-action Home Button (루트 권한 없이 동작)
 - 앱 스토어: Yalp Store
-- 파일 탐색기: Cabinet
-- 브라우저: Lightning + eInk 패치
+- 파일 탐색기: MK Explorer
 - 오프라인 사전: ColorDict + RidiDictBridge
-- 버튼매퍼 (나그네님)
+- 버튼매퍼 (나그네님) + 오른쪽 버튼 두 개 대해 동작
 - 화면 회전: Adaptive Rotation Lock
 - 메모리 정리: Greenify
 
 -----------------------------------------------
 
 ## 달라진 점
+ - r12
+  * 순정 리커버리 대신 TWRP 커스텀 리커버리로 교체
+    (https://github.com/limerainne/ridi_paper_pro_ntx_6sl_twrp)
+  * 필수 기본앱만 담긴 (소프트키, 앱서랍) 루트 이미지 추가
+  * 첫 부팅시 앱 설치: 대화상자 바깥을 눌러 닫은 경우 투명창이 남아있어 터치 안 되는 문제 개선
+
  - r11
   * 루트 이미지: 업데이트 패키지 설치 방식으로 변경
     - 진행률 표시 가능, 깔끔한 설치 후 재시작
@@ -332,6 +334,39 @@ sed: 혹시 텍스트 파일 찾아바꾸기할 일 있을까봐...
 
 - OTA 패키지 설치시 리커버리 파티션이 순정 상태로 돌아가므로
    * 루트 작업 마지막에 커스텀 리커버리 기기에 플래싱
-   * 앱 설치 공간에 9 MiB 상당의 커스텀 리커버리 파일을 비치 (/data/local/recovery_mod.img)
+   * (<=r11) 앱 설치 공간에 10 MiB 상당의 커스텀 리커버리 파일을 비치 (/data/local/recovery_mod.img)
      - 리커버리 이미지 안에 자기 자신 이미지를 넣을 수는 없으니...
      - 이미지 안에 자기 자신을 포함시킬 다른 방법도 있겠으나, 위험 부담 + 귀찮
+   * (>=r12) 리커버리 시작 시 리커버리 파티션 백업 -> OTA 설치 후 루트 도구 설치 중 이용
+     - 이제 소중한 데이터 파티션 공간 10 MiB 가량 아낌
+
+-----------------------------------------------
+## 기능 수정별 상세 내역
+
+  - ADB 활성화: /system/build.prop에 다음 줄 덧붙임
+persist.sys.usb.config=mtp,adb
+
+  - 사용자 앱의 SD카드 쓰기 권한 허용: /system/etc/permissions/platform.xml 수정
+     <permission name="android.permission.WRITE_EXTERNAL_STORAGE" >
+         <group gid="sdcard_r" />
+         <group gid="sdcard_rw" />
++        <group gid="media_rw" />
+     </permission>
+
+  - init.d 활성화 (/system/etc/install-recovery.sh 및 busybox run-parts 활용)
+
+  - 첫 부팅 시 앱 설치 스크립트 추가
+: 리커버리 내장한 필수 앱 /data/local/tmp/apps로 복사
+: /system/app/에 토스트+대화상자용 앱 추가
+
+  - SuperSU 설치
+
+  - 브라우저 다운로드 기능 고치기: /system/priv-app/DownloadProvider.apk 교체 (v1.0.1P 파일 이용)
+com.android.providers.downloads.DownloadProvider.checkFileUriDestination() 함수 중,
+  getCanonicalPath() -> getAbsolutePath()로 변경
+
+  - 부트 파티션 수정
+init.E70Q10.rc SECONDARY_STORAGE 환경변수 설정
+default.prop에 위의 ADB 활성화 수정
+데메빌러님 epdblk 구동을 위한 graphics 유저 전용 파일 권한 수정
+USB 벤더 ID "구글 넥서스 4"로 속이기: 간편한 Win7 드라이버 인식 위해
