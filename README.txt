@@ -1,4 +1,4 @@
-﻿# Ridi Paper Pro Kitchen r12
+﻿# Ridi Paper Pro Kitchen r12_1
 
 - 도움
 https://cafe.naver.com/bookbook68912/770
@@ -204,6 +204,9 @@ https://github.com/limerainne/ridi_paper_pro_ntx_6sl_twrp
     (https://github.com/limerainne/ridi_paper_pro_ntx_6sl_twrp)
   * 필수 기본앱만 담긴 (소프트키, 앱서랍) 루트 이미지 추가
   * 첫 부팅시 앱 설치: 대화상자 바깥을 눌러 닫은 경우 투명창이 남아있어 터치 안 되는 문제 개선
+  * 전체 절차 안내 위한 스크립트 추가: _step_by_step.cmd
+  - r12_1
+    * 절차 안내 스크립트의 치명적인 오타 ('\') 수정 및 설명 개정
 
  - r11
   * 루트 이미지: 업데이트 패키지 설치 방식으로 변경

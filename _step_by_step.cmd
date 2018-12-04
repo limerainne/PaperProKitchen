@@ -8,12 +8,12 @@ pushd %~dp0
 title Ridibooks Paper Pro Kitchen # 열린서재 준비 도구
 
 echo =========================================
-echo Ridi Paper Pro Kitchen r12
+echo Ridi Paper Pro Kitchen r12_1
 echo.
-echo - 도움
+echo - 도움글
 echo https://cafe.naver.com/bookbook68912/770
 echo https://cafe.naver.com/ebook/422502
-echo - 저장소
+echo - 배포용 저장소
 echo https://github.com/limerainne/PaperProKitchen
 echo =========================================
 
@@ -171,7 +171,7 @@ echo.
 :3_shutdown_device
 echo ==== 3. 기기 전원 끄기 ====
 echo.
-echo 이제부터 기기를 USB 케이블로 PC에 연결해주세요. 원활한 인식을 위해 다음을 권장합니다:
+echo 기기를 USB 케이블로 PC에 연결해두세요. 원활한 인식을 위해 다음을 권장합니다:
 echo ^- 좋은 USB 케이블: 리디 번들, 휴대폰 제조사 정품, ...
 echo ^- PC에 직접 연결 (USB 허브 대신), 데스크탑이면 뒷면 포트
 echo.
@@ -195,6 +195,11 @@ echo.
 
 :5_boot_with_image
 echo ==== 5. 루트 이미지로 부팅 ====
+echo.
+echo 도움글의 스크린샷과 비슷하게 장치 관리자에 기기가 인식되었나요? 그렇지 않다면,
+echo ^- USB 케이블을 바꿔보거나,
+echo ^- PC의 다른 USB 포트를 사용해 보세요.
+
 :5_1_fastboot_devices
 echo.
 echo -- Fastboot 프로그램이 인식한 기기 목록 --
@@ -202,7 +207,7 @@ echo ^> fastboot devices
 fastboot devices
 echo.
 
-echo 위 항목에 기기가 있나요? 계속하려면 Y를 입력하고 엔터 키를, 목록을 새로고치려면 엔터 키를 누르세요.
+echo 위 목록에 기기가 있나요? 계속하려면 Y를 입력하고 엔터 키를, 목록을 새로고치려면 엔터 키를 누르세요.
 
 set AREYOUSURE=N
 SET /P AREYOUSURE=계속 진행할까요? [Y/[N]]: 
@@ -218,7 +223,7 @@ echo ---
 echo 4. ADB만 활성화 (업데이트 후 ADB 유지 없음)
 echo.
 
-set RECV_IMAGE=4
+set RECV_IMAGE=0
 SET /P RECV_IMAGE=사용할 이미지 번호를 입력하고 엔터 키를 누르세요 [1-4]: 
 echo.
 IF /I "%RECV_IMAGE%" GEQ "5" GOTO 5_2_choose_image
@@ -236,6 +241,7 @@ set RECV_IMAGE_PATH=%RECV_IMAGE_PATH%/open_adb_only_r1.img
 )
 
 echo 선택한 이미지가 맞나요? 맞다면 Y를 입력하고 엔터 키를, 아니라면 엔터 키를 눌러 다시 선택하세요.
+echo ^# !RECV_IMAGE!번 이미지
 echo ^> !RECV_IMAGE_PATH!
 echo.
 
@@ -247,7 +253,7 @@ IF /I "!AREYOUSURE!" NEQ "Y" GOTO 5_2_choose_image
 :5_3_fastboot_boot_with_chosen_image
 
 echo ^> fastboot boot %RECV_IMAGE_PATH%
-fastboot boot %RECV_IMAGE_PATH%\
+fastboot boot %RECV_IMAGE_PATH%
 echo.
 
 echo 'downloading', 'booting', 'finished' 메시지가 차례로 떴나요? 그렇지 않아서 다시 시도하려면 Y를 입력하고 엔터 키를, 다음으로 넘어가려면 엔터 키를 누르세요.
