@@ -1,4 +1,4 @@
-﻿# Ridi Paper Pro Kitchen r12_1
+﻿# Ridi Paper Pro Kitchen r12_2
 
 - 도움
 https://cafe.naver.com/bookbook68912/770
@@ -81,7 +81,7 @@ finished. total time: 0.236s
          + ADB 장치 구글 넥서스 4로 속임 + 데메빌러님 epdblk 작동 준비
     - openlib_r12_light.img
         : 위 이미지 + 소프트키&앱서랍만 자동 설치
-    - openlib_r12_base.img
+    - openlib_r12_full.img
         : 위 이미지 + 각종 기본 앱 자동 설치
 
     - recovery_adb_r12.img
@@ -205,8 +205,17 @@ https://github.com/limerainne/ridi_paper_pro_ntx_6sl_twrp
   * 필수 기본앱만 담긴 (소프트키, 앱서랍) 루트 이미지 추가
   * 첫 부팅시 앱 설치: 대화상자 바깥을 눌러 닫은 경우 투명창이 남아있어 터치 안 되는 문제 개선
   * 전체 절차 안내 위한 스크립트 추가: _step_by_step.cmd
+  * 버튼매퍼 기본 설정 적용: 교보도서관, 북큐브, 카카오페이지, 조아라 등
   - r12_1
     * 절차 안내 스크립트의 치명적인 오타 ('\') 수정 및 설명 개정
+  - r12_2
+    * 버튼매퍼 기본 설정 중 이전 페이지 터치 좌표 고침
+    * 설정/애플리케이션 화면 투명 배경 하얗게 변경
+    * 첫 부팅시 앱 설치
+      - 'Apps' 폴더 이름 모두 소문자, SD카드에 넣은 경우도 지원
+      - 안내 문구 수정
+    * PC 스크립트: install_apps 개정
+      - 시작하기 전 ADB 장치 인식 점검, 기기 내 APK 파일 설치 기능
 
  - r11
   * 루트 이미지: 업데이트 패키지 설치 방식으로 변경
