@@ -1,11 +1,9 @@
-# Ridi Paper Pro 리파티션 도구 r2
+# Ridi Paper Pro 리파티션 도구 r2 / r13
 -------------------
 
 # 용어 정리
 - 파티션: 저장 공간을 통으로 쓸 순 없고 나누어들 쓰실텐데, 이 때 나눈 공간 하나하나를 파티션이라고 함. 또는 파티션 나누는 행위도 파티션이라고 함. (영어 단어니까 뭐...)
 - 리파티션: 리(re) 붙었으니, 파티션 나누기를 다시 하겠다는 것.
-
-(이걸 용어 정리라고 한 건지..)
 
 
 # 준비물
@@ -29,12 +27,12 @@ update/repart_mod_1G.zip
 리파티션 스크립트 + 루팅 패키지 모두 필요
 update 폴더의
 repart_mod_full.zip 파일 및
-update_mod_r12_light.zip 또는 update_mod_r12_full.zip 파일 준비
+update_mod_r13_light.zip 또는 update_mod_r13_full.zip 파일 준비
 (light: 루트 + 소프트키·앱서랍, full: 루트 + 모든 기본 앱)
 cf) 루팅 패키지 이름 뒤에 '_w_recv_emusd'라고 붙여놨으나 생략했음. 찰떡같이 알아주시길.
 
 또한, 통합 공간 지원하도록 별도로 마련한 리커버리 이미지 이용할 것임
-images/recovery_r12_emusd_postota.img
+images/recovery_r13_emusd_postota.img
 
 
 # 절차
@@ -54,10 +52,10 @@ cf) PC 연결 후 명령창에서 다음 명령 치면 손쉽게 진입 가능
 
 * 선택한 방식에 따라 다른 이미지 이용
 - 1G
-fastboot boot images\recovery_adb_r12.img
+fastboot boot images\recovery_adb_r13.img
 
 - 통합
-fastboot boot images\recovery_adb_r12_emusd.img
+fastboot boot images\recovery_adb_r13_emusd.img
 
 * TWRP 로고가 뜨고 나서 메인 메뉴가 뜰 때까지 잠시 기다리기
 cf) 메인 메뉴 = [Install], [Wipe], .. 등등 버튼 보이고, 아래에 소프트키 보이는 화면
@@ -138,7 +136,7 @@ SD 카드가 없으니 시스템 파일을 쪼매만한 임시 공간에 백업했었고,
 
 다음 아래 명령으로 루팅 패키지 기기에 넣기.
 
-> adb push update/update_mod_r12_full_w_recv_emusd.zip /tmp/
+> adb push update/update_mod_r13_full_w_recv_emusd.zip /tmp/
 
 cf) 올인원이 싫으시면 full 대신 light로 하셔도 됨.
 
