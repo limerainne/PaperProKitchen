@@ -1,8 +1,7 @@
-﻿# Ridi Paper Pro Kitchen r12_2
+﻿# Ridi Paper Pro Kitchen r13
 
-- 도움
+- 안내서
 https://cafe.naver.com/bookbook68912/770
-https://cafe.naver.com/ebook/422502
 - 저장소
 https://github.com/limerainne/PaperProKitchen
 
@@ -56,13 +55,13 @@ https://github.com/limerainne/PaperProKitchen
       - 여기서 부팅 실패 시 ("FAILED"), USB 케이블 교체·데스크톱이면 후면 USB 포트 추천
 
 > fastboot devices
-> fastboot boot images\openlib_r12_full.img
+> fastboot boot images\openlib_r13_full.img
 
 실행 예시)-*-*-*-*-*-*-*-*-*-*-*-*-
 C:\Users\LVLZ\Desktop\PaperPro>fastboot devices
 PP1A1********   fastboot
 
-C:\Users\LVLZ\Desktop\PaperPro>fastboot boot images\openlib_r12_full.img
+C:\Users\LVLZ\Desktop\PaperPro>fastboot boot images\openlib_r13_full.img
 downloading 'boot.img'...
 OKAY [  0.230s]
 booting...
@@ -74,17 +73,18 @@ finished. total time: 0.236s
     - open_adb_only_r1.img
         : ADB 활성화 (+ 킷캣 OS SD카드 쓰기 권한 제한 해제; 부트 영역 수정 않으면 무의미)
 
-    - openlib_r12_base.img
+    - openlib_r13_base.img
         : 위 이미지 + 루트 권한 + 유용한 시스템 수정
          + init.d 활성화 + 첫 부팅 시 앱 자동 설치 기능
          + SuperSU 설치 + 부트 파티션 수정 (SD카드 인식) + 브라우저 파일 다운로드 기능 수리
          + ADB 장치 구글 넥서스 4로 속임 + 데메빌러님 epdblk 작동 준비
-    - openlib_r12_light.img
+         + Xposed, PlayStore 설치/유지
+    - openlib_r13_light.img
         : 위 이미지 + 소프트키&앱서랍만 자동 설치
-    - openlib_r12_full.img
+    - openlib_r13_full.img
         : 위 이미지 + 각종 기본 앱 자동 설치
 
-    - recovery_adb_r12.img
+    - recovery_adb_r13.img
         : 그냥 TWRP 리커버리, 직접 명령 내려야 할 때
 
 - 리커버리 모드로 진입하고, 이미지에 따라 작업을 진행한 후 자동 재부팅됨.
@@ -188,17 +188,51 @@ https://github.com/limerainne/ridi_paper_pro_ntx_6sl_twrp
 - 소프트키: UDN
 - 앱 서랍: E-Ink Launcher
 -------
-- 소프트키: Multi-action Home Button (루트 권한 없이 동작)
-- 앱 스토어: Yalp Store
 - 파일 탐색기: MK Explorer
-- 오프라인 사전: ColorDict + RidiDictBridge
-- 버튼매퍼 (나그네님) + 오른쪽 버튼 두 개 대해 동작
+- 오프라인 사전: ColorDict
+- Xposed Framework
+  - Xposed Additions, RidiPosed, RootCloak
+- GooglePlay 서비스
+  - microG, FakeGapps, FakeStore, (선택: PlayStore)
 - 화면 회전: Adaptive Rotation Lock
-- 메모리 정리: Greenify
+- 앱 메모리 정리: Greenify
+- 성능 개선: Seeder, Trimmer
+- 웹브라우저: Lightning
 
 -----------------------------------------------
 
 ## 달라진 점
+ - r13  
+  * WiFi 탐색 주기 10분으로 (build.prop), 신호 세기 새로고침 주기 1분으로 (RidiPosed)
+  * Xposed Framework 자동 설치 / 유지
+    * 버튼 매핑 도구 교체: Xposed Additions
+      - 모든 버튼 개별 매핑 가능
+      - (수동) 화면 리프레시, 밝기 조절 화면 호출
+    * RidiPosed
+      - 사전 버튼 (오프라인 앱)
+      - 도서별 폰트 지정, 형광펜 커서 동작, 본문 검정 배경 (v1.3.0P에서만 확실히 동작)
+      - 어느 앱에서나 퀵버튼 리프레시 동작
+      - 일부 앱의 검정 배경 흰색으로, WiFi 신호 세기 새로고침 간격 1분으로 늦춤
+    * RootCloak
+      - 루트 감지하여 동작 않는 일부 앱 문제 우회
+  * GooglePlay (microG) 및 PlayStore 설치 / 유지 기능
+    - (비공식) microG 통한 가벼운 GooglePlay 서비스 작동
+      - 자동 동기화, 위치 서비스 없음
+    - PlayStore 설치 (별도) 및 OTA 업데이트 후 유지 기능
+  * 앱 추가: Seeder, Trimmer, Lightning 브라우저
+    * Seeder: 반응성 개선: 얼음땡 문제 완화
+    * Trimmer: 자체 메모리 TRIM 기능이 못 미더울 때
+    * Lightning: 순정 인터넷 앱보다 깔끔한 인터페이스, 광고 차단
+  * 앱 업데이트
+    * E-Ink Launcher: 아이콘 이름순 정렬
+    * Greenify: 목록에 주요 서점 앱 더 추가
+  * 앱 삭제: Multi-action Home Button, RidiDictBridge, Yalp Store, 나그네님 버튼매퍼
+  
+  * iToast: 앱 저장소 부족할 때 알림 대화상자 표시 (안드로이드 기본값: <10%)
+  * 순정 리커버리로 되돌림 -- 순정 파티션 재조정 기능 사용 가능
+  * 부팅 중 앱 설치: APK 파일에 띄어쓰기 있으면 파일 찾지 못하는 문제 회피
+  * 도구 설치 시 번들 앱 설정 파일을 무조건 덮어쓰도록 되돌림
+
  - r12
   * 순정 리커버리 대신 TWRP 커스텀 리커버리로 교체
     (https://github.com/limerainne/ridi_paper_pro_ntx_6sl_twrp)

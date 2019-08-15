@@ -8,11 +8,10 @@ pushd %~dp0
 title Ridibooks Paper Pro Kitchen # 열린서재 준비 도구
 
 echo =========================================
-echo Ridi Paper Pro Kitchen r12_2
+echo Ridi Paper Pro Kitchen r13
 echo.
-echo - 도움글
+echo - 안내서
 echo https://cafe.naver.com/bookbook68912/770
-echo https://cafe.naver.com/ebook/422502
 echo - 배포용 저장소
 echo https://github.com/limerainne/PaperProKitchen
 echo =========================================
@@ -231,11 +230,11 @@ IF /I "%RECV_IMAGE%" LEQ "0" GOTO 5_2_choose_image
 
 set RECV_IMAGE_PATH=images
 if /I "%RECV_IMAGE%" == "1" (
-set RECV_IMAGE_PATH=%RECV_IMAGE_PATH%/openlib_r12_full.img
+set RECV_IMAGE_PATH=%RECV_IMAGE_PATH%/openlib_r13_full.img
 ) else if /I "%RECV_IMAGE%" == "2" (
-set RECV_IMAGE_PATH=%RECV_IMAGE_PATH%/openlib_r12_light.img
+set RECV_IMAGE_PATH=%RECV_IMAGE_PATH%/openlib_r13_light.img
 ) else if /I "%RECV_IMAGE%" == "3" (
-set RECV_IMAGE_PATH=%RECV_IMAGE_PATH%/openlib_r12_basic.img
+set RECV_IMAGE_PATH=%RECV_IMAGE_PATH%/openlib_r13_basic.img
 ) else if /I "%RECV_IMAGE%" == "4" (
 set RECV_IMAGE_PATH=%RECV_IMAGE_PATH%/open_adb_only_r1.img
 )

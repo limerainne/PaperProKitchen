@@ -85,8 +85,8 @@ for /f "tokens=*" %%i in ('adb shell echo "$([ -d %1 ] && [ -f %1/*.apk ] && [ ^
 IF /I !DIR_EXIST! LSS 1 goto install_apps_in_device__stop
 
 echo ^- 설치 명령을 전달합니다.
-echo ^> adb shell "for apk in %1/*.apk; do echo App: $apk; pm install -r $apk; done"
-adb shell "for apk in %1/*.apk; do echo App: $apk; pm install -r $apk; done"
+echo ^> adb shell "for apk in %1/*.apk; do echo App: $apk; pm install -r "$apk"; done"
+adb shell "for apk in %1/*.apk; do echo App: $apk; pm install -r "$apk"; done"
 
 set /A INSTALL_COUNT=INSTALL_COUNT+1
 
