@@ -1,4 +1,4 @@
-﻿# Ridi Paper Pro Kitchen r13
+﻿# Ridi Paper Pro Kitchen r13_1
 
 - 안내서
 https://cafe.naver.com/bookbook68912/770
@@ -34,6 +34,11 @@ https://github.com/limerainne/PaperProKitchen
   - Windows 탐색기 > PAPER PRO > 내부 저장소 열기
   - 도구 폴더에 있는 ".win7" 파일을 내부 저장소로 복사
     - 추후 루팅 스크립트 동작 중 이 파일이 존재하면 장치 VID 변경 시행
+
+- (선택) epdblk / RefreshPie (네이버 eBook카페 데메빌러님 도구) 사용 위한 부트 이미지 수정
+  - Windows 탐색기 > PAPER PRO > 내부 저장소 열기
+  - 도구 폴더에 있는 ".allow_epdblk" 파일을 내부 저장소로 복사
+    - 루팅 스크립트 동작 중 이 파일이 있으면 epdblk 동작 위한 프레임버퍼 권한 개방 처리
 
 - 기기를 완전히 종료하기
   - 기기 상단의 전원 버튼을 누르고, 화면에서 [확인]을 터치.
@@ -202,7 +207,13 @@ https://github.com/limerainne/ridi_paper_pro_ntx_6sl_twrp
 -----------------------------------------------
 
 ## 달라진 점
- - r13  
+ - r13_1
+  * RidiPosed: 일부 앱 검정 배경 흰색 바꾸기 문제 수정 및 밝은 회색으로 후퇴
+  * XposedAdditions: 스캔코드 규칙 지정시 일반 키코드 규칙을 무시하지 않도록 수정
+  * 오른쪽 두 키뿐 아니라 왼쪽 두 키로도 수동 화면 리프레시 가능
+  * epdblk/RefreshPie 위한 부트 이미지 수정을 선택 기능으로 바꿈 (.allow_epdblk 플래그)
+ 
+ - r13
   * WiFi 탐색 주기 10분으로 (build.prop), 신호 세기 새로고침 주기 1분으로 (RidiPosed)
   * Xposed Framework 자동 설치 / 유지
     * 버튼 매핑 도구 교체: Xposed Additions
