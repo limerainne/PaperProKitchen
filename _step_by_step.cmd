@@ -8,7 +8,7 @@ pushd %~dp0
 title Ridibooks Paper Pro Kitchen # 열린서재 준비 도구
 
 echo =========================================
-echo Ridi Paper Pro Kitchen r13_1
+echo Ridi Paper Pro Kitchen r13_2
 echo.
 echo - 안내서
 echo https://cafe.naver.com/bookbook68912/770

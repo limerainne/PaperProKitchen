@@ -1,4 +1,4 @@
-﻿# Ridi Paper Pro Kitchen r13_1
+﻿# Ridi Paper Pro Kitchen r13_2
 
 - 안내서
 https://cafe.naver.com/bookbook68912/770
@@ -207,6 +207,13 @@ https://github.com/limerainne/ridi_paper_pro_ntx_6sl_twrp
 -----------------------------------------------
 
 ## 달라진 점
+ - r13_2
+  * /default.prop: 'user' 빌드로 되돌림 <- 기존: 'eng' 빌드; 불필요한 디버그 모드 활성화 문제
+  * iToast: 저장소 부족 경고 더 잘 뜨도록 수정
+  * RidiPosed v0.2.5 (v1.5.1P 전용)
+    - 시스템 수준 기능 추가, 비호환시 강제종료 문제 수정
+  * 웹브라우저 다시 추가
+ 
  - r13_1
   * RidiPosed: 일부 앱 검정 배경 흰색 바꾸기 문제 수정 및 밝은 회색으로 후퇴
   * XposedAdditions: 스캔코드 규칙 지정시 일반 키코드 규칙을 무시하지 않도록 수정

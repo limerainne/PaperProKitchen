@@ -7,7 +7,7 @@ pushd %~dp0
 title Ridibooks Paper Pro Kitchen # 앱 실행
 
 :ask_user
-set TARGET_PKG=be.wazabe.appdrawer
+set TARGET_PKG=cn.modificator.launcher
 if "%~1" == "" (
   echo # 실행할 앱의 패키지명을 입력하거나 아래 목록에서 번호를 골라 입력하세요:
   REM NOTE echo문에 괄호 쓰지 말 것...
