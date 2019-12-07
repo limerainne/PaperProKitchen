@@ -1,4 +1,4 @@
-# Ridi Paper Pro 리파티션 도구 r2 / r13_1
+# Ridi Paper Pro 리파티션 도구 r2 / r13_2
 -------------------
 
 # 용어 정리
