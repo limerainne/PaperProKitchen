@@ -1,3 +1,11 @@
- - Put APK files you want to be installed
- - Run `_install_apps.cmd`, which enumerates APK files in this folder, then install one-by-one using `> adb install <APK file>` command.
-
+ PC에서 기기에 앱을 일괄 설치하려 할 때, 설치할 앱 APK 파일을 두는 폴더입니다.
+ 
+ **기기에 APK 파일을 넣고 직접 설치하는 게 더 나을 수 있습니다!** 왜냐면,
+ - APK 파일명에 한글 글자나 공백 문자가 있으면 기기로 파일 전송이 안 될 수 있습니다.
+ - 예상치 못한 이유로 설치에 실패할 수 있습니다.
+ 
+ **작업 절차**
+ - 기기에 설치하고 싶은 앱 APK 파일을 이 폴더에 넣어두세요. 
+ - 파일명을 편집해서 한글 문자를 영문으로 고치거나, 공백(스페이스) 문자를 빼면 좋습니다.
+ - 상위 폴더의 `_install_apps.cmd` 배치 파일을 실행하세요.
+   - 이 폴더에 있는 APK 파일에 대해, `adb install <APK 파일 경로>` 명령을 차례로 내려줍니다.
