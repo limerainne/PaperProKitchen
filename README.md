@@ -1,6 +1,6 @@
-# PaperProKitchen (r13_2) ![Release][release-badge] ![DownloadCount][download-badge]
+# PaperProKitchen (r13_2) [![Release][release-badge]][release-target] [![DownloadCount][download-badge]][release-target]
 
-[![Release][release-target-badge]][release-target]
+## **다운로드** → [![Release][release-target-badge]][release-target]
 
 [리디 페이퍼 **프로**][paper_pro-brochure]를 위한 **타사 앱 실행 환경 조성 및 루트 도구**입니다.
 
